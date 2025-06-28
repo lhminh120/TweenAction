@@ -7,18 +7,18 @@ namespace TweenAction
     public class TweenActionGameObjectDisable : TweenActionBase
     {
         [SerializeField] private GameObject _target;
-        protected override void Excute()
+        protected override void Execute()
         {
 
         }
 
         public override void Register()
         {
-            GetCAControl().AddCABaseToList(this);
+            GetTweenActionControl().AddTweenActionBaseToList(this);
         }
-        public override void ResetExcute()
+        public override void ResetExecute()
         {
-            base.ResetExcute();
+            base.ResetExecute();
         }
 
         public override void FinishProgressRightNow()

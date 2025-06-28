@@ -32,7 +32,7 @@ namespace TweenAction
         public UnityEvent _onClick;
         public UnityEvent _onUp;
         public UnityEvent _onLongPress;
-        private TweenActionControl[] _lastestActions = null;
+        private TweenActionControl[] _latestActions = null;
 
         public void OnPointerUp(PointerEventData eventData)
         {
@@ -91,26 +91,26 @@ namespace TweenAction
         }
         private void ActionWithButton(ButtonAction buttonAction)
         {
-            if (_lastestActions != null) StopSpecAction(_lastestActions);
+            if (_latestActions != null) StopSpecAction(_latestActions);
             if (buttonAction == ButtonAction.DOWN)
             {
                 if (_actionOnDowns != null) StartSpecAction(_actionOnDowns);
-                _lastestActions = _actionOnDowns;
+                _latestActions = _actionOnDowns;
             }
             if (buttonAction == ButtonAction.UP)
             {
                 if (_actionOnUps != null) StartSpecAction(_actionOnUps);
-                _lastestActions = _actionOnUps;
+                _latestActions = _actionOnUps;
             }
             if (buttonAction == ButtonAction.ENTER)
             {
                 if (_actionOnEnters != null) StartSpecAction(_actionOnEnters);
-                _lastestActions = _actionOnEnters;
+                _latestActions = _actionOnEnters;
             }
             if (buttonAction == ButtonAction.EXIT)
             {
                 if (_actionOnExits != null) StartSpecAction(_actionOnExits);
-                _lastestActions = _actionOnExits;
+                _latestActions = _actionOnExits;
             }
         }
         private void StopSpecAction(TweenActionControl[] listAction)

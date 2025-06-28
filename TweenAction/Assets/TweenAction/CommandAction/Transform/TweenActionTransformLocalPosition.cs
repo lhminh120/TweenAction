@@ -8,18 +8,18 @@ namespace TweenAction
         [SerializeField] private Transform _target;
         [SerializeField] private Vector3 _position;
         private Vector3 _original;
-        protected override void Excute()
+        protected override void Execute()
         {
             _target.localPosition = Utilities.SmoothVector3(_original, _position, Utilities.Smooth(_leanStyle, _countUp / _duration));
         }
 
         public override void Register()
         {
-            GetCAControl().AddCABaseToList(this);
+            GetTweenActionControl().AddTweenActionBaseToList(this);
         }
-        public override void ResetExcute()
+        public override void ResetExecute()
         {
-            base.ResetExcute();
+            base.ResetExecute();
             _original = _target.localPosition;
         }
 

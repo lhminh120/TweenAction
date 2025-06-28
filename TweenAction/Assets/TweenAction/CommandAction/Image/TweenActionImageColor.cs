@@ -10,18 +10,18 @@ namespace TweenAction
         [SerializeField] private Image _target;
         [SerializeField] private Color _color;
         private Color _original;
-        protected override void Excute()
+        protected override void Execute()
         {
             _target.color = Utilities.SmoothColor(_original, _color, Utilities.Smooth(_leanStyle, _countUp / _duration));
         }
 
         public override void Register()
         {
-            GetCAControl().AddCABaseToList(this);
+            GetTweenActionControl().AddTweenActionBaseToList(this);
         }
-        public override void ResetExcute()
+        public override void ResetExecute()
         {
-            base.ResetExcute();
+            base.ResetExecute();
             _original = _target.color;
         }
 

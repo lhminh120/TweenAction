@@ -11,27 +11,23 @@ namespace TweenAction
         [SerializeField] protected GlobalVariables.LeanEase _leanStyle;
         private TweenActionControl _tweenActionControl;
         protected float _countUp = 0;
-        protected virtual void Awake()
-        {
-            _tweenActionControl = GetComponent<TweenActionControl>();
-        }
-        protected TweenActionControl GetCAControl()
+        protected TweenActionControl GetTweenActionControl()
         {
             if (_tweenActionControl == null) _tweenActionControl = GetComponent<TweenActionControl>();
             return _tweenActionControl;
         }
         public float GetDuration() => _duration;
-        public virtual void ResetExcute()
+        public virtual void ResetExecute()
         {
             _countUp = 0;
         }
         public abstract void Register();
-        protected abstract void Excute();
-        public void ExcuetOverTime()
+        protected abstract void Execute();
+        public void ExecuteOverTime()
         {
             if (_countUp < _duration)
             {
-                Excute();
+                Execute();
                 _countUp += Time.deltaTime;
 
             }

@@ -1,14 +1,6 @@
 using UnityEngine;
 public static class GlobalVariables
 {
-    public static Vector3 _vecForward = Vector3.forward;
-    public static Vector3 _vecUp = Vector3.up;
-    public static Vector3 _vecZero = Vector3.zero;
-    public static Vector3 _vecDown = Vector3.down;
-    public static Vector3 _vecRight = Vector3.right;
-    public static Vector3 _vecLeft = Vector3.left;
-    public static Vector3 _verForward = Vector3.forward;
-    public static Vector3 _vecBack = Vector3.back;
     public enum MaterialNormalName : int
     {
         YELLOW = 0,
