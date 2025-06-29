@@ -5,25 +5,28 @@ using UnityEngine;
 
 namespace TweenAction
 {
-    [DisallowMultipleComponent]
-    public class TweenActionControl : MonoBehaviour
+    public class TweenAction : MonoBehaviour
     {
+        private List<List<TweenActionBase>> _modifyList = new List<List<TweenActionBase>>();
         private Queue<List<TweenActionBase>> _executeList = new Queue<List<TweenActionBase>>();
         private Queue<List<TweenActionBase>> _tempList = new Queue<List<TweenActionBase>>();
         private List<TweenActionBase> _childBaseList;
         private float _lastDuration;
         private float _countUp;
         private bool _doneExecute = true;
+
         private void Awake()
         {
             var tweenActionBases = GetComponents<TweenActionBase>();
+            if (tweenActionBases == null) return;
             _childBaseList = new List<TweenActionBase>();
-            _executeList.Enqueue(_childBaseList);
+            _modifyList.Add(_childBaseList);
             for (int i = 0, length = tweenActionBases.Length; i < length; i++)
             {
                 tweenActionBases[i].Register();
             }
             _childBaseList = null;
+            Run();
         }
         public void ResetAll()
         {
@@ -40,15 +43,41 @@ namespace TweenAction
             _childBaseList = null;
             _doneExecute = false;
         }
-        public void AddTweenActionBaseToList(TweenActionBase tweenActionBases)
+        public TweenAction Add(TweenActionBase tweenActionBases)
         {
-            if (_childBaseList == null) BreakList();
-            _childBaseList.Add(tweenActionBases);
+            if (_childBaseList == null) Append(tweenActionBases);
+            else _childBaseList.Add(tweenActionBases);
+            return this;
+
         }
-        public void BreakList()
+        public TweenAction Append(TweenActionBase tweenActionBases)
+        {
+            BreakList();
+            _childBaseList.Add(tweenActionBases);
+            return this;
+        }
+        public TweenAction Insert(int index, TweenActionBase tweenActionBases)
+        {
+            if (_modifyList.Count > index && index >= 0)
+                _modifyList[index].Add(tweenActionBases);
+            else
+                Debug.LogWarning("index is invalid number");
+            return this;
+        }
+        public TweenAction BreakList()
         {
             _childBaseList = new List<TweenActionBase>();
-            _executeList.Enqueue(_childBaseList);
+            _modifyList.Add(_childBaseList);
+            return this;
+        }
+        public TweenAction Run()
+        {
+            for (int i = 0, length = _modifyList.Count; i < length; i++)
+            {
+                _executeList.Enqueue(_modifyList[i]);
+            }
+            _modifyList.Clear();
+            return this;
         }
         public void StopAll()
         {

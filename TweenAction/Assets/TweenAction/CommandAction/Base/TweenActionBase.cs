@@ -4,16 +4,21 @@ using UnityEngine;
 
 namespace TweenAction
 {
-    [RequireComponent(typeof(TweenActionControl))]
+    [RequireComponent(typeof(TweenAction))]
     public abstract class TweenActionBase : MonoBehaviour
     {
         [SerializeField] protected float _duration;
         [SerializeField] protected GlobalVariables.LeanEase _leanStyle;
-        private TweenActionControl _tweenActionControl;
+        private TweenAction _tweenActionControl;
         protected float _countUp = 0;
-        protected TweenActionControl GetTweenActionControl()
+        protected TweenAction Tween()
         {
-            if (_tweenActionControl == null) _tweenActionControl = GetComponent<TweenActionControl>();
+            if (_tweenActionControl == null)
+            {
+                _tweenActionControl = GetComponent<TweenAction>();
+                if (_tweenActionControl == null)
+                    _tweenActionControl = gameObject.AddComponent<TweenAction>();
+            }
             return _tweenActionControl;
         }
         public float GetDuration() => _duration;
@@ -21,7 +26,10 @@ namespace TweenAction
         {
             _countUp = 0;
         }
-        public abstract void Register();
+        public virtual void Register()
+        {
+            Tween().Add(this);
+        }
         protected abstract void Execute();
         public void ExecuteOverTime()
         {

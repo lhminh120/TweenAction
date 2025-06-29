@@ -12,10 +12,6 @@ namespace TweenAction
 
         }
 
-        public override void Register()
-        {
-            GetTweenActionControl().AddTweenActionBaseToList(this);
-        }
         public override void ResetExecute()
         {
             base.ResetExecute();

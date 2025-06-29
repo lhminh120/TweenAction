@@ -17,22 +17,22 @@ namespace TweenAction
             EXIT,
             NONE
         }
-        [Header("Sound Setting")]
+        // [Header("Sound Setting")]
         // [SerializeField] private SoundLibrary.SoundEffectName _soundOnButtonDown;
         // [SerializeField] private SoundLibrary.SoundEffectName _soundOnButtonUp;
-        [SerializeField] private bool _useOnlyOneSoundEffect = false;
+        // [SerializeField] private bool _useOnlyOneSoundEffect = false;
         [Header("Click Effect Setting")]
-        [SerializeField] private TweenActionControl[] _actionOnDowns;
-        [SerializeField] private TweenActionControl[] _actionOnUps;
-        [SerializeField] private TweenActionControl[] _actionOnEnters;
-        [SerializeField] private TweenActionControl[] _actionOnExits;
+        [SerializeField] private TweenAction[] _actionOnDowns;
+        [SerializeField] private TweenAction[] _actionOnUps;
+        [SerializeField] private TweenAction[] _actionOnEnters;
+        [SerializeField] private TweenAction[] _actionOnExits;
         private bool _pressing = false;
         [Header("Click Effect Event")]
         public UnityEvent _onDown;
         public UnityEvent _onClick;
         public UnityEvent _onUp;
         public UnityEvent _onLongPress;
-        private TweenActionControl[] _latestActions = null;
+        private TweenAction[] _latestActions = null;
 
         public void OnPointerUp(PointerEventData eventData)
         {
@@ -113,14 +113,14 @@ namespace TweenAction
                 _latestActions = _actionOnExits;
             }
         }
-        private void StopSpecAction(TweenActionControl[] listAction)
+        private void StopSpecAction(TweenAction[] listAction)
         {
             for (int i = 0, length = listAction.Length; i < length; i++)
             {
                 listAction[i].StopAll();
             }
         }
-        private void StartSpecAction(TweenActionControl[] listAction)
+        private void StartSpecAction(TweenAction[] listAction)
         {
             for (int i = 0, length = listAction.Length; i < length; i++)
             {

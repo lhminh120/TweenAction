@@ -13,11 +13,10 @@ namespace TweenAction
 
         public override void Register()
         {
-            GetTweenActionControl().BreakList();
+            Tween().BreakList();
             if (_duration > 0)
             {
-                GetTweenActionControl().AddTweenActionBaseToList(this);
-                GetTweenActionControl().BreakList();
+                Tween().Add(this).BreakList();
             }
         }
 

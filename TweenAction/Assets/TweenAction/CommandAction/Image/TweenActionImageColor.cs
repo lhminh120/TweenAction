@@ -15,10 +15,6 @@ namespace TweenAction
             _target.color = Utilities.SmoothColor(_original, _color, Utilities.Smooth(_leanStyle, _countUp / _duration));
         }
 
-        public override void Register()
-        {
-            GetTweenActionControl().AddTweenActionBaseToList(this);
-        }
         public override void ResetExecute()
         {
             base.ResetExecute();

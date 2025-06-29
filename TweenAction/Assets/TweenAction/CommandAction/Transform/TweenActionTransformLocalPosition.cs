@@ -13,10 +13,6 @@ namespace TweenAction
             _target.localPosition = Utilities.SmoothVector3(_original, _position, Utilities.Smooth(_leanStyle, _countUp / _duration));
         }
 
-        public override void Register()
-        {
-            GetTweenActionControl().AddTweenActionBaseToList(this);
-        }
         public override void ResetExecute()
         {
             base.ResetExecute();

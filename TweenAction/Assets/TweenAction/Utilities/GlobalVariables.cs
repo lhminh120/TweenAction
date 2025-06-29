@@ -1,28 +1,7 @@
 using UnityEngine;
 public static class GlobalVariables
 {
-    public enum MaterialNormalName : int
-    {
-        YELLOW = 0,
-        BLUE,
-        RED,
-        VIOLET,
-        PINK,
-        GREEN,
-        WHITE,
-        BROWN,
-    }
-    public enum MaterialDarkName : int
-    {
-        YELLOW_DARK = 0,
-        BLUE_DARK,
-        RED_DARK,
-        VIOLET_DARK,
-        PINK_DARK,
-        GREEN_DARK,
-        WHITE_DARK,
-        BROWN_DARK
-    }
+
     public enum LeanEase
     {
         // Basic
