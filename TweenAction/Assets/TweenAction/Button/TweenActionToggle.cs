@@ -8,10 +8,7 @@ namespace TweenAction
 {
     public class TweenActionToggle : MonoBehaviour, IPointerDownHandler
     {
-        // [Header("Sound Setting")]
-        // [SerializeField] private SoundLibrary.SoundEffectName _onToggleOnSound;
-        // [SerializeField] private SoundLibrary.SoundEffectName _onToggleOffSound;
-        // [SerializeField] private bool _useOnlyOneSoundEffect;
+
         [Header("Click Effect Setting")]
         [SerializeField] private TweenAction[] _onToggleOn;
         [SerializeField] private TweenAction[] _onToggleOff;
@@ -41,14 +38,7 @@ namespace TweenAction
         private void ActionToggle()
         {
             StartSpecAction(_isOn ? _onToggleOn : _onToggleOff);
-            // if (_useOnlyOneSoundEffect)
-            // {
-            //     GameManager.Instance._soundManager.PlayEffectSoundOnlyOne(_isOn ? _onToggleOnSound : _onToggleOffSound);
-            // }
-            // else
-            // {
-            //     GameManager.Instance._soundManager.PlayEffectSound(_isOn ? _onToggleOnSound : _onToggleOffSound);
-            // }
+
 
             if (_isOn)
                 _onToggleOnEvent?.Invoke();

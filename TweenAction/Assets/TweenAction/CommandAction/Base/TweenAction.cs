@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace TweenAction
@@ -19,16 +20,17 @@ namespace TweenAction
 
         private void Awake()
         {
-            // var tweenActionBases = GetComponents<TweenActionComponent>();
-            // if (tweenActionBases == null) return;
-            // _childBaseList = new List<TweenActionComponent>();
-            // _modifyList.Add(_childBaseList);
-            // for (int i = 0, length = tweenActionBases.Length; i < length; i++)
-            // {
-            //     tweenActionBases[i].Register();
-            // }
-            // _childBaseList = null;
-            // Run();
+            var tweenActionBases = GetComponents<TweenActionComponent>();
+            if (tweenActionBases == null) return;
+            for (int i = 0, length = tweenActionBases.Length; i < length; i++)
+            {
+                (var isBreak, var tweenOrder) = tweenActionBases[i].Register();
+                if (isBreak)
+                    BreakAndAppend(tweenOrder);
+                else
+                    Append(tweenOrder);
+            }
+            RunAction();
         }
         public static TweenAction Target(GameObject target)
         {
@@ -52,6 +54,10 @@ namespace TweenAction
             _childList = null;
             _doneExecute = false;
         }
+        public TweenAction Append(float duration, Action<float> updateAction = null, GlobalVariables.LeanEase leanEase = GlobalVariables.LeanEase.Linear)
+        {
+            return Append(new TweenOrder(duration, updateAction, leanEase));
+        }
         public TweenAction Append(TweenOrder tweenOrder)
         {
             if (_childList == null) BreakAndAppend(tweenOrder);
@@ -59,11 +65,19 @@ namespace TweenAction
             return this;
 
         }
+        public TweenAction BreakAndAppend(float duration, Action<float> updateAction = null, GlobalVariables.LeanEase leanEase = GlobalVariables.LeanEase.Linear)
+        {
+            return BreakAndAppend(new TweenOrder(duration, updateAction, leanEase));
+        }
         public TweenAction BreakAndAppend(TweenOrder tweenOrder)
         {
             BreakList();
             _childList.Add(tweenOrder);
             return this;
+        }
+        public TweenAction Insert(int index, float duration, Action<float> updateAction = null, GlobalVariables.LeanEase leanEase = GlobalVariables.LeanEase.Linear)
+        {
+            return Insert(index, new TweenOrder(duration, updateAction, leanEase));
         }
         public TweenAction Insert(int index, TweenOrder tweenOrder)
         {
@@ -79,7 +93,7 @@ namespace TweenAction
             _modifyList.Add(_childList);
             return this;
         }
-        public TweenAction Run()
+        public TweenAction RunAction()
         {
             for (int i = 0, length = _modifyList.Count; i < length; i++)
             {

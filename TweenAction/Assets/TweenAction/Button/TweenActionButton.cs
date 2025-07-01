@@ -17,10 +17,6 @@ namespace TweenAction
             EXIT,
             NONE
         }
-        // [Header("Sound Setting")]
-        // [SerializeField] private SoundLibrary.SoundEffectName _soundOnButtonDown;
-        // [SerializeField] private SoundLibrary.SoundEffectName _soundOnButtonUp;
-        // [SerializeField] private bool _useOnlyOneSoundEffect = false;
         [Header("Click Effect Setting")]
         [SerializeField] private TweenAction[] _actionOnDowns;
         [SerializeField] private TweenAction[] _actionOnUps;
@@ -61,18 +57,7 @@ namespace TweenAction
             _pressing = true;
             _onDown?.Invoke();
             ActionWithButton(ButtonAction.DOWN);
-            // if (_soundOnButtonDown != SoundLibrary.SoundEffectName.NONE)
-            // {
-            //     if (_useOnlyOneSoundEffect)
-            //     {
-            //         GameManager.Instance._soundManager.PlayEffectSoundOnlyOne(_soundOnButtonDown);
-            //     }
-            //     else
-            //     {
-            //         GameManager.Instance._soundManager.PlayEffectSound(_soundOnButtonDown);
-            //     }
 
-            // }
         }
         public void OnPointerEnter(PointerEventData eventData)
         {
