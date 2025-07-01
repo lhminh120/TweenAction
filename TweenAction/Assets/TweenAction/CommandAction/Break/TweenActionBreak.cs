@@ -4,24 +4,24 @@ using UnityEngine;
 
 namespace TweenAction
 {
-    public class TweenActionBreak : TweenActionBase
+    public class TweenActionBreak : TweenActionComponent
     {
-        public override void FinishProgressRightNow()
+        protected override TweenOrder RegisterOrder()
         {
-
+            return new TweenOrder(_duration);
+        }
+        public override (bool, TweenOrder) Register()
+        {
+            return (true, RegisterOrder());
         }
 
-        public override void Register()
+        protected override void Execute(float progress)
         {
-            Tween().BreakList();
-            if (_duration > 0)
-            {
-                Tween().Add(this).BreakList();
-            }
         }
 
-        protected override void Execute()
+        protected override void OnStartExecute()
         {
+
         }
     }
 

@@ -5,28 +5,37 @@ using UnityEngine;
 
 namespace TweenAction
 {
+    [DisallowMultipleComponent]
     public class TweenAction : MonoBehaviour
     {
-        private List<List<TweenActionBase>> _modifyList = new List<List<TweenActionBase>>();
-        private Queue<List<TweenActionBase>> _executeList = new Queue<List<TweenActionBase>>();
-        private Queue<List<TweenActionBase>> _tempList = new Queue<List<TweenActionBase>>();
-        private List<TweenActionBase> _childBaseList;
+        private List<List<TweenOrder>> _modifyList = new List<List<TweenOrder>>();
+        private Queue<List<TweenOrder>> _executeList = new Queue<List<TweenOrder>>();
+        private Queue<List<TweenOrder>> _tempList = new Queue<List<TweenOrder>>();
+        private List<TweenOrder> _childList;
         private float _lastDuration;
         private float _countUp;
         private bool _doneExecute = true;
+        private bool _isPausing = false;
 
         private void Awake()
         {
-            var tweenActionBases = GetComponents<TweenActionBase>();
-            if (tweenActionBases == null) return;
-            _childBaseList = new List<TweenActionBase>();
-            _modifyList.Add(_childBaseList);
-            for (int i = 0, length = tweenActionBases.Length; i < length; i++)
-            {
-                tweenActionBases[i].Register();
-            }
-            _childBaseList = null;
-            Run();
+            // var tweenActionBases = GetComponents<TweenActionComponent>();
+            // if (tweenActionBases == null) return;
+            // _childBaseList = new List<TweenActionComponent>();
+            // _modifyList.Add(_childBaseList);
+            // for (int i = 0, length = tweenActionBases.Length; i < length; i++)
+            // {
+            //     tweenActionBases[i].Register();
+            // }
+            // _childBaseList = null;
+            // Run();
+        }
+        public static TweenAction Target(GameObject target)
+        {
+            var tweenAction = target.GetComponent<TweenAction>();
+            if (tweenAction == null)
+                tweenAction = target.AddComponent<TweenAction>();
+            return tweenAction;
         }
         public void ResetAll()
         {
@@ -40,34 +49,34 @@ namespace TweenAction
             }
             _countUp = 0;
             _lastDuration = 0;
-            _childBaseList = null;
+            _childList = null;
             _doneExecute = false;
         }
-        public TweenAction Add(TweenActionBase tweenActionBases)
+        public TweenAction Append(TweenOrder tweenOrder)
         {
-            if (_childBaseList == null) Append(tweenActionBases);
-            else _childBaseList.Add(tweenActionBases);
+            if (_childList == null) BreakAndAppend(tweenOrder);
+            else _childList.Add(tweenOrder);
             return this;
 
         }
-        public TweenAction Append(TweenActionBase tweenActionBases)
+        public TweenAction BreakAndAppend(TweenOrder tweenOrder)
         {
             BreakList();
-            _childBaseList.Add(tweenActionBases);
+            _childList.Add(tweenOrder);
             return this;
         }
-        public TweenAction Insert(int index, TweenActionBase tweenActionBases)
+        public TweenAction Insert(int index, TweenOrder tweenOrder)
         {
             if (_modifyList.Count > index && index >= 0)
-                _modifyList[index].Add(tweenActionBases);
+                _modifyList[index].Add(tweenOrder);
             else
                 Debug.LogWarning("index is invalid number");
             return this;
         }
         public TweenAction BreakList()
         {
-            _childBaseList = new List<TweenActionBase>();
-            _modifyList.Add(_childBaseList);
+            _childList = new List<TweenOrder>();
+            _modifyList.Add(_childList);
             return this;
         }
         public TweenAction Run()
@@ -96,7 +105,7 @@ namespace TweenAction
             }
             _countUp = 0;
             _lastDuration = 0;
-            _childBaseList = null;
+            _childList = null;
             _doneExecute = true;
 
         }
@@ -104,29 +113,38 @@ namespace TweenAction
         {
             ResetAll();
         }
+        public void Pause()
+        {
+            _isPausing = true;
+        }
+        public void Resume()
+        {
+            _isPausing = false;
+        }
         private void Execute()
         {
             if (_doneExecute) return;
+            if (_isPausing) return;
             if (_countUp >= _lastDuration)
             {
                 _countUp = 0;
                 _lastDuration = 0;
                 if (_executeList.Count > 0)
                 {
-                    if (_childBaseList != null)
+                    if (_childList != null)
                     {
-                        for (int i = 0, length = _childBaseList.Count; i < length; i++)
+                        for (int i = 0, length = _childList.Count; i < length; i++)
                         {
-                            _childBaseList[i].FinishProgressRightNow();
+                            _childList[i].FinishProgressRightNow();
                         }
                     }
-                    _childBaseList = _executeList.Dequeue();
-                    for (int i = 0, length = _childBaseList.Count; i < length; i++)
+                    _childList = _executeList.Dequeue();
+                    for (int i = 0, length = _childList.Count; i < length; i++)
                     {
-                        if (_lastDuration < _childBaseList[i].GetDuration()) _lastDuration = _childBaseList[i].GetDuration();
-                        _childBaseList[i].ResetExecute();
+                        if (_lastDuration < _childList[i].GetDuration()) _lastDuration = _childList[i].GetDuration();
+                        _childList[i].BeforeExecute();
                     }
-                    _tempList.Enqueue(_childBaseList);
+                    _tempList.Enqueue(_childList);
                 }
                 else
                 {
@@ -137,9 +155,9 @@ namespace TweenAction
             else
             {
                 _countUp += Time.deltaTime;
-                for (int i = 0, length = _childBaseList.Count; i < length; i++)
+                for (int i = 0, length = _childList.Count; i < length; i++)
                 {
-                    _childBaseList[i].ExecuteOverTime();
+                    _childList[i].ExecuteOverTime();
                 }
             }
         }

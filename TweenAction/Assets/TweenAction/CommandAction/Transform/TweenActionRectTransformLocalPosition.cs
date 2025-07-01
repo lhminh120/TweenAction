@@ -4,25 +4,18 @@ using UnityEngine;
 
 namespace TweenAction
 {
-    public class TweenActionRectTransformLocalPosition : TweenActionBase
+    public class TweenActionRectTransformLocalPosition : TweenActionComponent
     {
         [SerializeField] private RectTransform _target;
         [SerializeField] private Vector3 _position;
         private Vector3 _original;
-        protected override void Execute()
+        protected override void Execute(float progress)
         {
-            _target.localPosition = Utilities.SmoothVector3(_original, _position, Utilities.Smooth(_leanStyle, _countUp / _duration));
+            _target.localPosition = Utilities.SmoothVector3(_original, _position, progress);
         }
-
-        public override void ResetExecute()
+        protected override void OnStartExecute()
         {
-            base.ResetExecute();
             _original = _target.localPosition;
-        }
-
-        public override void FinishProgressRightNow()
-        {
-            _target.localPosition = _position;
         }
     }
 

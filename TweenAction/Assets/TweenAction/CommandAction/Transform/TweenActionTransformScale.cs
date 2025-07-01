@@ -4,26 +4,21 @@ using UnityEngine;
 
 namespace TweenAction
 {
-    public class TweenActionTransformScale : TweenActionBase
+    public class TweenActionTransformScale : TweenActionComponent
     {
         [SerializeField] private Transform _target;
         [SerializeField] private Vector3 _scale;
         private Vector3 _original;
-        protected override void Execute()
+        protected override void Execute(float progress)
         {
-            _target.localScale = Utilities.SmoothVector3(_original, _scale, Utilities.Smooth(_leanStyle, _countUp / _duration));
+            _target.localScale = Utilities.SmoothVector3(_original, _scale, progress);
         }
 
-        public override void ResetExecute()
+        protected override void OnStartExecute()
         {
-            base.ResetExecute();
             _original = _target.localScale;
         }
 
-        public override void FinishProgressRightNow()
-        {
-            _target.localScale = _scale;
-        }
     }
 
 }

@@ -5,25 +5,19 @@ using UnityEngine.UI;
 
 namespace TweenAction
 {
-    public class TweenActionImageColor : TweenActionBase
+    public class TweenActionImageColor : TweenActionComponent
     {
         [SerializeField] private Image _target;
         [SerializeField] private Color _color;
         private Color _original;
-        protected override void Execute()
+        protected override void Execute(float progress)
         {
-            _target.color = Utilities.SmoothColor(_original, _color, Utilities.Smooth(_leanStyle, _countUp / _duration));
+            _target.color = Utilities.SmoothColor(_original, _color, progress);
         }
 
-        public override void ResetExecute()
+        protected override void OnStartExecute()
         {
-            base.ResetExecute();
             _original = _target.color;
-        }
-
-        public override void FinishProgressRightNow()
-        {
-            _target.color = _color;
         }
     }
 

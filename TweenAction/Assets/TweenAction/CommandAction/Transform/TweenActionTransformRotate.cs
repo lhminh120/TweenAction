@@ -4,25 +4,19 @@ using UnityEngine;
 
 namespace TweenAction
 {
-    public class TweenActionTransformRotate : TweenActionBase
+    public class TweenActionTransformRotate : TweenActionComponent
     {
         [SerializeField] private Transform _target;
         [SerializeField] private Vector3 _angle;
         private Vector3 _original;
-        protected override void Execute()
+        protected override void Execute(float progress)
         {
-            _target.localEulerAngles = Utilities.SmoothVector3(_original, _angle, Utilities.Smooth(_leanStyle, _countUp / _duration));
+            _target.localEulerAngles = Utilities.SmoothVector3(_original, _angle, progress);
         }
 
-        public override void ResetExecute()
+        protected override void OnStartExecute()
         {
-            base.ResetExecute();
             _original = _target.localEulerAngles;
-        }
-
-        public override void FinishProgressRightNow()
-        {
-            _target.localEulerAngles = _angle;
         }
     }
 

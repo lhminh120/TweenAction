@@ -4,22 +4,19 @@ using UnityEngine;
 
 namespace TweenAction
 {
-    public class TweenActionGameObjectDisable : TweenActionBase
+    public class TweenActionGameObjectDisable : TweenActionComponent
     {
         [SerializeField] private GameObject _target;
-        protected override void Execute()
-        {
 
+        protected override void Execute(float progress)
+        {
+            if (progress >= 1)
+                _target.SetActive(false);
         }
 
-        public override void ResetExecute()
+        protected override void OnStartExecute()
         {
-            base.ResetExecute();
-        }
 
-        public override void FinishProgressRightNow()
-        {
-            _target.SetActive(false);
         }
     }
 
