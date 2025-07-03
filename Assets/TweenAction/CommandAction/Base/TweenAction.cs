@@ -54,9 +54,9 @@ namespace TweenAction
             _childList = null;
             _doneExecute = false;
         }
-        public TweenAction Append(float duration, Action<float> updateAction = null, GlobalVariables.LeanEase leanEase = GlobalVariables.LeanEase.Linear)
+        public TweenAction Append(float duration, Action<float> updateAction = null, GlobalVariables.LeanEase leanEase = GlobalVariables.LeanEase.Linear, Action onStart = null, Action onComplete = null)
         {
-            return Append(new TweenOrder(duration, updateAction, leanEase));
+            return Append(new TweenOrder(duration, updateAction, leanEase).OnStart(onStart).OnComplete(onComplete));
         }
         public TweenAction Append(TweenOrder tweenOrder)
         {
@@ -65,9 +65,9 @@ namespace TweenAction
             return this;
 
         }
-        public TweenAction BreakAndAppend(float duration, Action<float> updateAction = null, GlobalVariables.LeanEase leanEase = GlobalVariables.LeanEase.Linear)
+        public TweenAction BreakAndAppend(float duration, Action<float> updateAction = null, GlobalVariables.LeanEase leanEase = GlobalVariables.LeanEase.Linear, Action onStart = null, Action onComplete = null)
         {
-            return BreakAndAppend(new TweenOrder(duration, updateAction, leanEase));
+            return BreakAndAppend(new TweenOrder(duration, updateAction, leanEase).OnStart(onStart).OnComplete(onComplete));
         }
         public TweenAction BreakAndAppend(TweenOrder tweenOrder)
         {
@@ -75,9 +75,9 @@ namespace TweenAction
             _childList.Add(tweenOrder);
             return this;
         }
-        public TweenAction Insert(int index, float duration, Action<float> updateAction = null, GlobalVariables.LeanEase leanEase = GlobalVariables.LeanEase.Linear)
+        public TweenAction Insert(int index, float duration, Action<float> updateAction = null, GlobalVariables.LeanEase leanEase = GlobalVariables.LeanEase.Linear, Action onStart = null, Action onComplete = null)
         {
-            return Insert(index, new TweenOrder(duration, updateAction, leanEase));
+            return Insert(index, new TweenOrder(duration, updateAction, leanEase).OnStart(onStart).OnComplete(onComplete));
         }
         public TweenAction Insert(int index, TweenOrder tweenOrder)
         {

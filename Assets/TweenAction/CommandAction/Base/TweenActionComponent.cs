@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace TweenAction
 {
@@ -9,9 +10,20 @@ namespace TweenAction
     {
         [SerializeField] protected float _duration;
         [SerializeField] protected GlobalVariables.LeanEase _leanStyle;
+        [SerializeField] protected UnityAction _onStart;
+        [SerializeField] protected UnityAction _onComplete;
         protected virtual TweenOrder RegisterOrder()
         {
-            return new TweenOrder(_duration, Execute, _leanStyle).OnStart(OnStartExecute);
+            return new TweenOrder(_duration, Execute, _leanStyle)
+                        .OnStart(() =>
+                        {
+                            OnStartExecute();
+                            _onStart?.Invoke();
+                        })
+                        .OnComplete(() =>
+                        {
+                            _onComplete?.Invoke();
+                        });
         }
         public virtual (bool, TweenOrder) Register()
         {
