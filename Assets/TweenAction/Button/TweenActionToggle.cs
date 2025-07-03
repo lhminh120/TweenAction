@@ -10,13 +10,13 @@ namespace TweenAction
     {
 
         [Header("Click Effect Setting")]
-        [SerializeField] private TweenAction[] _onToggleOn;
-        [SerializeField] private TweenAction[] _onToggleOff;
+        [SerializeField] private Tween[] _onToggleOn;
+        [SerializeField] private Tween[] _onToggleOff;
         [Header("Click Event Setting")]
         [SerializeField] private UnityEvent _onToggleOnEvent;
         [SerializeField] private UnityEvent _onToggleOffEvent;
         [SerializeField] private bool _isOn = true;
-        private void StartSpecAction(TweenAction[] listAction)
+        private void StartSpecAction(Tween[] listAction)
         {
             for (int i = 0, length = listAction.Length; i < length; i++)
             {

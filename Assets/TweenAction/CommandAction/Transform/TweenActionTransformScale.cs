@@ -9,13 +9,15 @@ namespace TweenAction
         [SerializeField] private Transform _target;
         [SerializeField] private Vector3 _scale;
         private Vector3 _differentValue;
+        private Vector3 _originalValue;
         protected override void Execute(float progress)
         {
-            _target.localScale = _target.localScale + progress * _differentValue;
+            _target.localScale = _originalValue + progress * _differentValue;
         }
 
         protected override void OnStartExecute()
         {
+            _differentValue = _target.localScale;
             _differentValue = _scale - _target.localScale;
         }
 

@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 namespace TweenAction
 {
-    [RequireComponent(typeof(TweenAction))]
+    [RequireComponent(typeof(Tween))]
     public abstract class TweenActionComponent : MonoBehaviour
     {
         [SerializeField] protected float _duration;

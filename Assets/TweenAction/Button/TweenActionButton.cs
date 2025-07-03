@@ -18,17 +18,17 @@ namespace TweenAction
             NONE
         }
         [Header("Click Effect Setting")]
-        [SerializeField] private TweenAction[] _actionOnDowns;
-        [SerializeField] private TweenAction[] _actionOnUps;
-        [SerializeField] private TweenAction[] _actionOnEnters;
-        [SerializeField] private TweenAction[] _actionOnExits;
+        [SerializeField] private Tween[] _actionOnDowns;
+        [SerializeField] private Tween[] _actionOnUps;
+        [SerializeField] private Tween[] _actionOnEnters;
+        [SerializeField] private Tween[] _actionOnExits;
         private bool _pressing = false;
         [Header("Click Effect Event")]
         public UnityEvent _onDown;
         public UnityEvent _onClick;
         public UnityEvent _onUp;
         public UnityEvent _onLongPress;
-        private TweenAction[] _latestActions = null;
+        private Tween[] _latestActions = null;
 
         public void OnPointerUp(PointerEventData eventData)
         {
@@ -98,14 +98,14 @@ namespace TweenAction
                 _latestActions = _actionOnExits;
             }
         }
-        private void StopSpecAction(TweenAction[] listAction)
+        private void StopSpecAction(Tween[] listAction)
         {
             for (int i = 0, length = listAction.Length; i < length; i++)
             {
                 listAction[i].StopAll();
             }
         }
-        private void StartSpecAction(TweenAction[] listAction)
+        private void StartSpecAction(Tween[] listAction)
         {
             for (int i = 0, length = listAction.Length; i < length; i++)
             {

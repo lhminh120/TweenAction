@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace TweenAction
 {
     [DisallowMultipleComponent]
-    public class TweenAction : MonoBehaviour
+    public class Tween : MonoBehaviour
     {
         private List<List<TweenOrder>> _modifyList = new List<List<TweenOrder>>();
         private Queue<List<TweenOrder>> _executeList = new Queue<List<TweenOrder>>();
@@ -34,11 +33,11 @@ namespace TweenAction
             }
             RunAction();
         }
-        public static TweenAction Target(GameObject target)
+        public static Tween Target(GameObject target)
         {
-            var tweenAction = target.GetComponent<TweenAction>();
+            var tweenAction = target.GetComponent<Tween>();
             if (tweenAction == null)
-                tweenAction = target.AddComponent<TweenAction>();
+                tweenAction = target.AddComponent<Tween>();
             return tweenAction;
         }
         public void ResetAll()
@@ -66,11 +65,11 @@ namespace TweenAction
         /// <param name="onStart">will be called before starting action</param>
         /// <param name="onComplete">will be called before action ends</param>
         /// <returns></returns>
-        public TweenAction Append(float duration, Action<float> updateAction = null, GlobalVariables.LeanEase leanEase = GlobalVariables.LeanEase.Linear, Action onStart = null, Action onComplete = null)
+        public Tween Append(float duration, Action<float> updateAction = null, GlobalVariables.LeanEase leanEase = GlobalVariables.LeanEase.Linear, Action onStart = null, Action onComplete = null)
         {
             return Append(new TweenOrder(duration, updateAction, leanEase).OnStart(onStart).OnComplete(onComplete));
         }
-        public TweenAction Append(TweenOrder tweenOrder)
+        public Tween Append(TweenOrder tweenOrder)
         {
             if (_childList == null) BreakAndAppend(tweenOrder);
             else _childList.Add(tweenOrder);
@@ -86,11 +85,11 @@ namespace TweenAction
         /// <param name="onStart">will be called before starting action</param>
         /// <param name="onComplete">will be called before action ends</param>
         /// <returns></returns>
-        public TweenAction BreakAndAppend(float duration, Action<float> updateAction = null, GlobalVariables.LeanEase leanEase = GlobalVariables.LeanEase.Linear, Action onStart = null, Action onComplete = null)
+        public Tween BreakAndAppend(float duration, Action<float> updateAction = null, GlobalVariables.LeanEase leanEase = GlobalVariables.LeanEase.Linear, Action onStart = null, Action onComplete = null)
         {
             return BreakAndAppend(new TweenOrder(duration, updateAction, leanEase).OnStart(onStart).OnComplete(onComplete));
         }
-        public TweenAction BreakAndAppend(TweenOrder tweenOrder)
+        public Tween BreakAndAppend(TweenOrder tweenOrder)
         {
             BreakList();
             _childList.Add(tweenOrder);
@@ -106,11 +105,11 @@ namespace TweenAction
         /// <param name="onStart">will be called before starting action</param>
         /// <param name="onComplete">will be called before action ends</param>
         /// <returns></returns>
-        public TweenAction Insert(int index, float duration, Action<float> updateAction = null, GlobalVariables.LeanEase leanEase = GlobalVariables.LeanEase.Linear, Action onStart = null, Action onComplete = null)
+        public Tween Insert(int index, float duration, Action<float> updateAction = null, GlobalVariables.LeanEase leanEase = GlobalVariables.LeanEase.Linear, Action onStart = null, Action onComplete = null)
         {
             return Insert(index, new TweenOrder(duration, updateAction, leanEase).OnStart(onStart).OnComplete(onComplete));
         }
-        public TweenAction Insert(int index, TweenOrder tweenOrder)
+        public Tween Insert(int index, TweenOrder tweenOrder)
         {
             if (_modifyList.Count > index && index >= 0)
                 _modifyList[index].Add(tweenOrder);
@@ -118,7 +117,7 @@ namespace TweenAction
                 Debug.LogWarning("index is invalid number");
             return this;
         }
-        public TweenAction BreakList()
+        public Tween BreakList()
         {
             _childList = new List<TweenOrder>();
             _modifyList.Add(_childList);
@@ -129,7 +128,7 @@ namespace TweenAction
         /// </summary>
         /// <param name="repeatTime">repeat time, if equals -1 means infinite</param>
         /// <returns></returns>
-        public TweenAction Repeat(int repeatTime)
+        public Tween Repeat(int repeatTime)
         {
             _repeatTime = repeatTime;
             _countCurrentRepeatTime = 0;
@@ -139,7 +138,7 @@ namespace TweenAction
         /// Must be called after setting all actions for this tween
         /// </summary>
         /// <returns></returns>
-        public TweenAction RunAction()
+        public Tween RunAction()
         {
             for (int i = 0, length = _modifyList.Count; i < length; i++)
             {
