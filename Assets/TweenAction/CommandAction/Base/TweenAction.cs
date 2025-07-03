@@ -17,6 +17,8 @@ namespace TweenAction
         private float _countUp;
         private bool _doneExecute = true;
         private bool _isPausing = false;
+        private int _repeatTime = 0;
+        private int _countCurrentRepeatTime = 0;
 
         private void Awake()
         {
@@ -53,7 +55,17 @@ namespace TweenAction
             _lastDuration = 0;
             _childList = null;
             _doneExecute = false;
+            _countCurrentRepeatTime = 0;
         }
+        /// <summary>
+        /// Append action into tween, appended actions will run at the same time
+        /// </summary>
+        /// <param name="duration">duration for this action</param>
+        /// <param name="updateAction">run every frame until duration ends</param>
+        /// <param name="leanEase"></param>
+        /// <param name="onStart">will be called before starting action</param>
+        /// <param name="onComplete">will be called before action ends</param>
+        /// <returns></returns>
         public TweenAction Append(float duration, Action<float> updateAction = null, GlobalVariables.LeanEase leanEase = GlobalVariables.LeanEase.Linear, Action onStart = null, Action onComplete = null)
         {
             return Append(new TweenOrder(duration, updateAction, leanEase).OnStart(onStart).OnComplete(onComplete));
@@ -65,6 +77,15 @@ namespace TweenAction
             return this;
 
         }
+        /// <summary>
+        /// Create new list actions to append. Each action in the same appended list will run at the same time, and each list will run after each other
+        /// </summary>
+        /// <param name="duration">duration for this action</param>
+        /// <param name="updateAction">run every frame until duration ends</param>
+        /// <param name="leanEase"></param>
+        /// <param name="onStart">will be called before starting action</param>
+        /// <param name="onComplete">will be called before action ends</param>
+        /// <returns></returns>
         public TweenAction BreakAndAppend(float duration, Action<float> updateAction = null, GlobalVariables.LeanEase leanEase = GlobalVariables.LeanEase.Linear, Action onStart = null, Action onComplete = null)
         {
             return BreakAndAppend(new TweenOrder(duration, updateAction, leanEase).OnStart(onStart).OnComplete(onComplete));
@@ -75,6 +96,16 @@ namespace TweenAction
             _childList.Add(tweenOrder);
             return this;
         }
+        /// <summary>
+        /// Insert action into list with index provide
+        /// </summary>
+        /// <param name="index">index of the list you want to insert</param>
+        /// <param name="duration">duration for this action</param>
+        /// <param name="updateAction">run every frame until duration ends</param>
+        /// <param name="leanEase"></param>
+        /// <param name="onStart">will be called before starting action</param>
+        /// <param name="onComplete">will be called before action ends</param>
+        /// <returns></returns>
         public TweenAction Insert(int index, float duration, Action<float> updateAction = null, GlobalVariables.LeanEase leanEase = GlobalVariables.LeanEase.Linear, Action onStart = null, Action onComplete = null)
         {
             return Insert(index, new TweenOrder(duration, updateAction, leanEase).OnStart(onStart).OnComplete(onComplete));
@@ -93,6 +124,21 @@ namespace TweenAction
             _modifyList.Add(_childList);
             return this;
         }
+        /// <summary>
+        /// Set repeat time for the whole Tween
+        /// </summary>
+        /// <param name="repeatTime">repeat time, if equals -1 means infinite</param>
+        /// <returns></returns>
+        public TweenAction Repeat(int repeatTime)
+        {
+            _repeatTime = repeatTime;
+            _countCurrentRepeatTime = 0;
+            return this;
+        }
+        /// <summary>
+        /// Must be called after setting all actions for this tween
+        /// </summary>
+        /// <returns></returns>
         public TweenAction RunAction()
         {
             for (int i = 0, length = _modifyList.Count; i < length; i++)
@@ -100,8 +146,13 @@ namespace TweenAction
                 _executeList.Enqueue(_modifyList[i]);
             }
             _modifyList.Clear();
+            ResetAll();
+            _isPausing = false;
             return this;
         }
+        /// <summary>
+        /// Stop all actions in this tween and show the final result of this tween
+        /// </summary>
         public void StopAll()
         {
             while (_executeList.Count > 0)
@@ -121,11 +172,14 @@ namespace TweenAction
             _lastDuration = 0;
             _childList = null;
             _doneExecute = true;
-
+            _countCurrentRepeatTime = 0;
         }
+        /// <summary>
+        /// Start run this tween
+        /// </summary>
         public void StartAll()
         {
-            ResetAll();
+            RunAction();
         }
         public void Pause()
         {
@@ -162,6 +216,12 @@ namespace TweenAction
                 }
                 else
                 {
+                    if (_repeatTime == -1 || (_repeatTime > 0 && _countCurrentRepeatTime < _repeatTime))
+                    {
+                        if (_repeatTime > 0) _countCurrentRepeatTime++;
+                        ResetAll();
+                        return;
+                    }
                     _doneExecute = true;
                 }
 
