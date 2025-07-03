@@ -7,15 +7,15 @@ namespace TweenAction
     {
         [SerializeField] private Transform _target;
         [SerializeField] private Vector3 _position;
-        private Vector3 _original;
+        private Vector3 _differentValue;
         protected override void Execute(float progress)
         {
-            _target.localPosition = Utilities.SmoothVector3(_original, _position, progress);
+            _target.localPosition = _target.localPosition + progress * _differentValue;
         }
 
         protected override void OnStartExecute()
         {
-            _original = _target.localPosition;
+            _differentValue = _position - _target.localPosition;
         }
     }
 

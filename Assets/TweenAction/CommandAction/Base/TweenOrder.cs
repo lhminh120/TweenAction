@@ -8,11 +8,13 @@ namespace TweenAction
         private GlobalVariables.LeanEase _leanEase;
         private float _duration;
         private float _countUp = 0;
-        private Action<float> _updateAction;
+        private Action<float> _onUpdate;
         private Action _onStart;
-        public TweenOrder(float duration, Action<float> updateAction = null, GlobalVariables.LeanEase leanEase = GlobalVariables.LeanEase.Linear)
+        private Action _onComplete;
+
+        public TweenOrder(float duration, Action<float> onUpdate = null, GlobalVariables.LeanEase leanEase = GlobalVariables.LeanEase.Linear)
         {
-            _updateAction = updateAction;
+            _onUpdate = onUpdate;
             _duration = duration;
             _leanEase = leanEase;
         }
@@ -27,9 +29,14 @@ namespace TweenAction
             _onStart = onStart;
             return this;
         }
+        public TweenOrder OnComplete(Action onComplete)
+        {
+            _onComplete = onComplete;
+            return this;
+        }
         private void Execute()
         {
-            _updateAction?.Invoke(Utilities.Smooth(_leanEase, _countUp / _duration));
+            _onUpdate?.Invoke(Utilities.Smooth(_leanEase, _countUp / _duration));
         }
         public void ExecuteOverTime()
         {
@@ -37,12 +44,13 @@ namespace TweenAction
             {
                 Execute();
                 _countUp += Time.deltaTime;
-
+                if (_countUp >= _duration)
+                    _onComplete?.Invoke();
             }
         }
         public void FinishProgressRightNow()
         {
-            _updateAction?.Invoke(1);
+            _onUpdate?.Invoke(1);
         }
     }
 }

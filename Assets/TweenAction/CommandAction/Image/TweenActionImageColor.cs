@@ -9,15 +9,15 @@ namespace TweenAction
     {
         [SerializeField] private Image _target;
         [SerializeField] private Color _color;
-        private Color _original;
+        private Color _differentValue;
         protected override void Execute(float progress)
         {
-            _target.color = Utilities.SmoothColor(_original, _color, progress);
+            _target.color = _target.color + _differentValue * progress;
         }
 
         protected override void OnStartExecute()
         {
-            _original = _target.color;
+            _differentValue = _color - _target.color;
         }
     }
 
