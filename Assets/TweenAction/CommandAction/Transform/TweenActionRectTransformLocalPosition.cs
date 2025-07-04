@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TweenAction
 {
-    public class TweenActionRectTransformLocalPosition : TweenActionComponent
+    public class TweenActionRectTransformLocalPosition : TweenComponent
     {
         [SerializeField] private RectTransform _target;
         [SerializeField] private Vector3 _position;

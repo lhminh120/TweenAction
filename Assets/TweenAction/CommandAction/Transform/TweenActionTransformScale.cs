@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TweenAction
 {
-    public class TweenActionTransformScale : TweenActionComponent
+    public class TweenActionTransformScale : TweenComponent
     {
         [SerializeField] private Transform _target;
         [SerializeField] private Vector3 _scale;

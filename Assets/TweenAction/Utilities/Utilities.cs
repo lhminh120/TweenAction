@@ -193,20 +193,6 @@ namespace TweenAction
             }
         }
         #endregion
-        #region  Smooth number
-        public static Vector3 SmoothVector3(Vector3 original, Vector3 target, float progress, GlobalVariables.LeanEase ease = GlobalVariables.LeanEase.Smooth)
-        {
-            Vector3 temp = target - original;
-            temp *= Smooth(ease, progress);
-            return original + temp;
-        }
-        public static Color SmoothColor(Color colorOriginal, Color colorTarget, float progress, GlobalVariables.LeanEase ease = GlobalVariables.LeanEase.Smooth)
-        {
-            Color color = colorTarget - colorOriginal;
-            color *= Smooth(ease, progress);
-            return colorOriginal + color;
-        }
-        #endregion
 
 
 

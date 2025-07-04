@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace TweenAction
 {
-    public class TweenActionImageColor : TweenActionComponent
+    public class TweenActionImageColor : TweenComponent
     {
         [SerializeField] private Image _target;
         [SerializeField] private Color _color;

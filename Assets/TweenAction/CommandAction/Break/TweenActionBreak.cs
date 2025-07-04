@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TweenAction
 {
-    public class TweenActionBreak : TweenActionComponent
+    public class TweenActionBreak : TweenComponent
     {
         protected override TweenOrder RegisterOrder()
         {

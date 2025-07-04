@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace TweenAction
 {
-    public class TweenActionTransformLocalPosition : TweenActionComponent
+    public class TweenActionTransformLocalPosition : TweenComponent
     {
         [SerializeField] private Transform _target;
         [SerializeField] private Vector3 _position;

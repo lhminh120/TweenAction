@@ -6,7 +6,7 @@ using UnityEngine.Events;
 namespace TweenAction
 {
     [RequireComponent(typeof(Tween))]
-    public abstract class TweenActionComponent : MonoBehaviour
+    public abstract class TweenComponent : MonoBehaviour
     {
         [SerializeField] protected float _duration;
         [SerializeField] protected GlobalVariables.LeanEase _leanStyle;

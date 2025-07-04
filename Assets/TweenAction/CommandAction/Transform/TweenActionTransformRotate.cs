@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TweenAction
 {
-    public class TweenActionTransformRotate : TweenActionComponent
+    public class TweenActionTransformRotate : TweenComponent
     {
         [SerializeField] private Transform _target;
         [SerializeField] private Vector3 _angle;

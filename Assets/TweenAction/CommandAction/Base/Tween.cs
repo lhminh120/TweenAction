@@ -21,7 +21,7 @@ namespace TweenAction
 
         private void Awake()
         {
-            var tweenActionBases = GetComponents<TweenActionComponent>();
+            var tweenActionBases = GetComponents<TweenComponent>();
             if (tweenActionBases == null) return;
             for (int i = 0, length = tweenActionBases.Length; i < length; i++)
             {
@@ -219,13 +219,13 @@ namespace TweenAction
                     {
                         if (_repeatTime > 0) _countCurrentRepeatTime++;
                         ResetAll();
-                        return;
                     }
-                    _doneExecute = true;
+                    else
+                        _doneExecute = true;
                 }
 
             }
-            else
+            if (!_doneExecute && _countUp < _lastDuration)
             {
                 _countUp += Time.deltaTime;
                 for (int i = 0, length = _childList.Count; i < length; i++)

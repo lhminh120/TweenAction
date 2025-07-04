@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TweenAction
 {
-    public class TweenActionGameObjectDisable : TweenActionComponent
+    public class TweenActionGameObjectDisable : TweenComponent
     {
         [SerializeField] private GameObject _target;
 

@@ -11,8 +11,8 @@ public class MoveFowardAndBackward : MonoBehaviour
     {
         _transform.position = _positionA;
         Tween.Target(gameObject)
-            .BreakAndAppend(1, (progress) => { _transform.position = _positionA + (_positionB - _positionA) * progress; })
-            .BreakAndAppend(1, (progress) => { _transform.position = _positionB + (_positionA - _positionB) * progress; })
+            .BreakAndAppend(1, (progress) => { _transform.position = _positionA + (_positionB - _positionA) * progress; }, _leanEase)
+            .BreakAndAppend(1, (progress) => { _transform.position = _positionB + (_positionA - _positionB) * progress; }, _leanEase)
             .Repeat(-1)
             .StartAll();
     }
