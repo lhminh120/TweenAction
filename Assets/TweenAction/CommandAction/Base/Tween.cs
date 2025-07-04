@@ -196,15 +196,15 @@ namespace TweenAction
             {
                 _countUp = 0;
                 _lastDuration = 0;
+                if (_childList != null)
+                {
+                    for (int i = 0, length = _childList.Count; i < length; i++)
+                    {
+                        _childList[i].FinishProgressRightNow();
+                    }
+                }
                 if (_executeList.Count > 0)
                 {
-                    if (_childList != null)
-                    {
-                        for (int i = 0, length = _childList.Count; i < length; i++)
-                        {
-                            _childList[i].FinishProgressRightNow();
-                        }
-                    }
                     _childList = _executeList.Dequeue();
                     for (int i = 0, length = _childList.Count; i < length; i++)
                     {
